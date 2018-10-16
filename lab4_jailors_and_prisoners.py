@@ -1,3 +1,40 @@
+'''
+Problem description:
+
+Three jailers are transporting three convicts on foot. They come to a river, which can only be
+crossed in a rowing boat. The boat is only large enough to contain two people, but it can be
+rowed by one.
+
+The simplest way for everyone to get across would be for any two of the party to cross the river,
+then one rows back, then two row across, and so on. However, there is a difficulty: if at any
+time, the jailers on either side of the river are outnumbered by the convicts on the same side, the
+convicts will overpower the jailers, steal the keys to their chains, and escape.
+How can the entire party cross the river with none of the convicts escaping?
+
+http://www.plastelina.net/game2.html
+ ~play game online here 
+'''
+
+from timeit import default_timer as timer
+
+def main():
+    # state[0]: number of jailors on left bank 
+    # state[1]: number of convicts on left bank 
+    # state[2]: 0 if boat on left bank, 1 if boat on right bank 
+    # state[3]: number of jailors on right bank 
+    # state[4]: number of convicts on right bank
+    initial_state = [10,9,0,0,0]
+
+    start = timer()
+    recursive_sol = dfs_rec([initial_state])
+    print('solution found recursively in {:.4} seconds'.format(timer()-start))
+    display_solution(recursive_sol)
+
+    start = timer()
+    iterative_sol = dfs_iter(initial_state)
+    print('solution found iteratively in {:.4} seconds'.format(timer()-start))
+    display_solution(iterative_sol)
+
 # check if a state is valid (ie. can't have negative number of jailors or convicts) 
 def is_valid(state):
 	if state[0] < 0 or state[1] < 0 or state[3] < 0 or state[4] < 0:
@@ -104,23 +141,5 @@ def display_solution(solution):
         print('state {0:2} : {1}'.format(count,step)) 
         count += 1
 
-
-# define initial state and goal state, and search for solution 
-def main():
-    # state[0]: number of jailors on left bank 
-    # state[1]: number of convicts on left bank 
-    # state[2]: 0 if boat on left bank, 1 if boat on right bank 
-    # state[3]: number of jailors on right bank 
-    # state[4]: number of convicts on right bank
-    
-    initial_state = [3,3,0,0,0]
-    # sol = dfs_rec([initial_state])
-    sol = dfs_iter(initial_state) 
-    display_solution(sol)
-
 if __name__ == "__main__":
     main()
-
-
-
-                   
